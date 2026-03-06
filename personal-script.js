@@ -253,7 +253,7 @@ function displayExpenses(filter = 'all') {
             <td><span class="category-tag">${expense.category}</span></td>
             <td class="amount-cell">₹${expense.amount.toFixed(2)}</td>
             <td>
-                <button class="btn btn-delete" onclick="deleteExpense(${expense.id})">Delete</button>
+                <button class="delete-btn small-btn" onclick="deleteExpense(${expense.id})">Delete</button>
             </td>
         `;
         

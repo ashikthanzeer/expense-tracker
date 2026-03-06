@@ -15,7 +15,7 @@
         <!-- Header with Back Button -->
         <div class="tracker-header">
             <button id="back-from-trip" class="back-btn" onclick="history.back()">← BACK</button>
-            <h1>✈️ Trip/Event Tracker</h1>
+            <h1>Trip/Event Tracker</h1>
         </div>
         <p class="subtitle">Manage expenses for trips and events with smart tracking</p>
         <hr class="section-divider">
@@ -23,7 +23,7 @@
         <!-- Trip Selection/Creation Section -->
         <div class="trip-selector-section">
             <div class="trip-selector-header">
-                <h3>🎯 Current Trip</h3>
+                <h3>Current Trip</h3>
                 <button id="new-trip-btn" class="add-member-btn">+ New Trip</button>
             </div>
             <div id="trip-select-container">
@@ -60,6 +60,10 @@
                         <label for="trip-budget">Budget Limit (₹) - Optional</label>
                         <input type="number" id="trip-budget" placeholder="Enter total budget (leave blank for no limit)" step="0.01" min="0">
                     </div>
+                    <div class="form-group">
+                        <label for="trip-description">Description - Optional</label>
+                        <textarea id="trip-description" rows="3" placeholder="Trip details, notes, etc..."></textarea>
+                    </div>
                     <button type="submit" class="submit-btn" id="trip-form-submit">Create Trip</button>
                 </form>
             </div>
@@ -74,6 +78,7 @@
                     <div>
                         <h2 id="current-trip-name">Trip Name</h2>
                         <p id="current-trip-dates" class="trip-dates"></p>
+                        <p id="current-trip-description" class="trip-description"></p>
                     </div>
                     <div id="trip-locked-badge" style="display: none;">
                         <span class="locked-badge">🔒 COMPLETED</span>
@@ -175,6 +180,10 @@
                         </select>
                     </div>
                     <div class="form-group">
+                        <label for="expense-description">Description *</label>
+                        <input type="text" id="expense-description" placeholder="e.g., Hotel booking, Dinner, Taxi" required>
+                    </div>
+                    <div class="form-group">
                         <label for="expense-paid-by">Who Paid? *</label>
                         <select id="expense-paid-by" required>
                             <option value="">Select participant...</option>
@@ -195,7 +204,7 @@
                         <div id="expense-split-list" class="split-members-list"></div>
                         <small class="helper-text">💡 Select only participants who participated in this activity</small>
                     </div>
-                    <button type="submit" class="submit-btn">Add Expense</button>
+                    <button type="submit" class="add-member-btn">Add Expense</button>
                 </form>
             </div>
 

@@ -1,20 +1,11 @@
-.split-member-checkbox.selected,
-.split-member-checkbox:hover,
-.split-member-checkbox.selected *,
-.split-member-checkbox:hover * {
-    background: #fff !important;
-    color: #000 !important;
+/* Stronger border for right column in Personal Tracker */
+.personal-tracker .recent-expenses-box {
+    border-bottom: 3px solid var(--text-primary);
 }
-/* Force black text inside the white split members box in all modes */
-.split-members-list-inner, .split-members-list-inner * {
-    color: #000 !important;
-}
-
-body:not(.dark-mode) .split-among-group,
-body:not(.dark-mode) .split-among-group *,
-body:not(.dark-mode) .split-members-list,
-body:not(.dark-mode) .split-members-list * {
-    color: #000 !important;
+/* Smaller variant for Clear All button */
+.small-btn {
+    padding: 8px 18px !important;
+    font-size: 0.85rem !important;
 }
 * {
     margin: 0;
@@ -76,28 +67,11 @@ body.dark-mode {
 }
 
 /* Force total group expenses text to black in dark mode */
-
-/* Remove forced black text in dark mode for better contrast */
-
-/* Set text color based on background, not just mode */
-.balance-section,
-.balance-section h3,
-.balance-section h2 {
-    color: var(--text-primary);
-}
-
-body.dark-mode .balance-section,
 body.dark-mode .balance-section h3,
-body.dark-mode .balance-section h2 {
-    color: var(--bg-primary);
-}
-
-.summary, .summary * {
-    color: var(--text-secondary);
-}
-
-body.dark-mode .summary, body.dark-mode .summary * {
-    color: var(--bg-primary);
+body.dark-mode .balance-section h2,
+body.dark-mode .summary,
+body.dark-mode .summary * {
+    color: #000 !important;
 }
 
 /* Dark Mode Toggle Button */
@@ -784,8 +758,7 @@ h3 {
 }
 
 .summary-item:hover {
-    background: var(--white);
-    color: var(--bg-primary);
+    /* hover effect removed */
 }
 
 .summary-item h4 {
@@ -802,11 +775,11 @@ body.dark-mode .summary-item h4 {
 }
 
 .summary-item:hover h4 {
-    color: rgba(255, 255, 255, 1);
+    /* hover effect removed */
 }
 
 body.dark-mode .summary-item:hover h4 {
-    color: rgba(0, 0, 0, 1);
+    /* hover effect removed */
 }
 
 .summary-item p {
@@ -994,14 +967,14 @@ body.dark-mode .summary-item:hover h4 {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 2px;
     margin-top: 20px;
-    background: var(--white);
+    background: var(--border-color);
 }
 
 .split-member-checkbox {
     display: flex;
     align-items: center;
-    background: var(--black);
-    color: var(--white);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
     padding: 16px 20px;
     border: none;
     cursor: pointer;
@@ -1009,13 +982,13 @@ body.dark-mode .summary-item:hover h4 {
 }
 
 .split-member-checkbox:hover {
-    background: var(--white);
-    color: var(--black);
+    background: var(--border-color);
+    color: var(--text-primary);
 }
 
 .split-member-checkbox.selected {
-    background: var(--white);
-    color: var(--black);
+    background: var(--card-bg);
+    color: var(--text-primary);
 }
 
 .split-member-checkbox input[type="checkbox"] {
@@ -1445,7 +1418,7 @@ body.dark-mode .summary-item:hover h4 {
     border-radius: 8px;
     margin-bottom: 30px;
 }
-
+        margin-bottom: 30px;
 .trip-info-header {
     display: flex;
     justify-content: space-between;
@@ -1491,16 +1464,20 @@ body.dark-mode .summary-item:hover h4 {
 
 .trip-stat-box {
     background: var(--bg-secondary);
-    padding: 20px;
+    padding: 0;
     border-radius: 8px;
     text-align: center;
     border: 1px solid var(--border-color);
 }
 
+.trip-stat-box:hover {
+    padding: 0 !important;
+}
+
 .stat-label {
     display: block;
     font-size: 0.85rem;
-    color: var(--text-primary);
+    color: var(--text-secondary);
     margin-bottom: 8px;
     font-weight: 500;
 }
@@ -1512,10 +1489,11 @@ body.dark-mode .summary-item:hover h4 {
     font-weight: 700;
 }
 
-/* Also force stat-value color in group tracker */
-#group-tracker .stat-value, #group-tracker .stat-value * {
+#group-tracker .stat-value,
+#group-tracker .stat-value * {
     color: var(--text-primary) !important;
 }
+
 
 .budget-alert {
     margin-top: 15px;
@@ -1551,7 +1529,7 @@ body.dark-mode .summary-item:hover h4 {
     border-radius: 8px;
     margin-bottom: 30px;
 }
-
+        margin-bottom: 30px;
 .category-breakdown-section h3,
 .day-breakdown-section h3 {
     color: var(--text-primary);
@@ -1706,52 +1684,7 @@ body.dark-mode .summary-item:hover h4 {
     min-width: 0;
 }
 
-
-.split-among-group, .split-members-list {
-    background: var(--card-bg);
-    color: var(--text-primary);
-    padding: 20px 10px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    transition: background 0.3s, color 0.3s;
-}
-
-/* Inner box for checkboxes: always white background, black text */
-.split-members-list-inner {
-    background: #fff;
-    color: #000;
-    border-radius: 6px;
-    padding: 10px 0;
-    display: flex;
-    gap: 2em;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-body.dark-mode .split-members-list-inner {
-    background: #fff;
-    color: #000;
-}
-
-/* Checkbox styling for contrast */
-input[type="checkbox"] {
-    accent-color: var(--text-primary);
-    background: var(--card-bg);
-    border: 2px solid var(--text-primary);
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-    transition: background 0.3s, border 0.3s;
-}
-
-input[type="checkbox"]:checked {
-    background: var(--text-primary);
-    border-color: var(--text-primary);
-}
-
-input[type="checkbox"]:checked:after {
-    color: var(--bg-primary);
-}
+/* Add Expense Section */
 .add-expense-section {
     background: var(--card-bg);
     padding: 30px;
