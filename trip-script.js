@@ -311,7 +311,8 @@ function loadTrip(tripId) {
     updateCategoryBreakdown();
     updateDayBreakdown();
     
-    expenseDateInput.valueAsDate = new Date();
+    // Set expense date to trip start date
+    expenseDateInput.value = trip.startDate;
 }
 
 function deleteCurrentTrip() {
@@ -481,6 +482,16 @@ function addExpense(e) {
     
     if (date === '' || category === '' || paidBy === '' || isNaN(amount) || amount <= 0) {
         alert('Please fill all required fields correctly!');
+        return;
+    }
+    
+    // Validate date is within trip dates (inclusive)
+    const expenseDate = new Date(date);
+    const startDate = new Date(trip.startDate);
+    const endDate = new Date(trip.endDate);
+    
+    if (expenseDate < startDate || expenseDate > endDate) {
+        alert(`Expense date must be between ${trip.startDate} and ${trip.endDate} (inclusive)!`);
         return;
     }
     
@@ -769,10 +780,20 @@ function updateTripStats() {
         budgetAlert.style.display = 'none';
     }
     
-    // Per person
+    // Per person - only show if all expenses have equal split among all participants
     if (trip.participants.length > 0) {
-        const perPerson = totalSpent / trip.participants.length;
-        tripPerPerson.textContent = `₹${perPerson.toFixed(2)}`;
+        const allEqualSplit = trip.expenses.every(expense => {
+            const splitAmong = expense.splitAmong || trip.participants;
+            return splitAmong.length === trip.participants.length && 
+                   trip.participants.every(p => splitAmong.includes(p));
+        });
+        
+        if (allEqualSplit) {
+            const perPerson = totalSpent / trip.participants.length;
+            tripPerPerson.textContent = `₹${perPerson.toFixed(2)}`;
+        } else {
+            tripPerPerson.textContent = 'Varies';
+        }
     } else {
         tripPerPerson.textContent = '₹0.00';
     }
@@ -1098,7 +1119,10 @@ function exportCSV() {
     trip.expenses.forEach(expense => {
         const splitInfo = expense.splitAmong ? expense.splitAmong.join('; ') : 'All participants';
         const dayInfo = expense.day || '';
-        csv += `${expense.date},${dayInfo},"${expense.category}","${expense.description}",${expense.paidBy},${expense.amount.toFixed(2)},"${splitInfo}"\n`;
+        const categoryClean = expense.category.replace(/^[^\w\s]+\s*/, '');
+        const descriptionClean = expense.description && expense.description !== 'undefined' ? expense.description : '-';
+        const amount = parseFloat(String(expense.amount).replace(/^[^\d.]+/, ''));
+        csv += `${expense.date},${dayInfo},"${categoryClean}","${descriptionClean}",${expense.paidBy},${amount.toFixed(2)},"${splitInfo}"\n`;
     });
     
     csv += '\n\nSettlements:\n';
@@ -1158,11 +1182,11 @@ function exportPDF() {
     doc.text('Summary:', 20, 58);
     doc.setFont(undefined, 'normal');
     doc.setFontSize(10);
-    doc.text(`Total Expenses: ₹${totalExpense.toFixed(2)}`, 20, 65);
+    doc.text(`Total Expenses: Rs. ${totalExpense.toFixed(2)}`, 20, 65);
     doc.text(`Number of Expenses: ${trip.expenses.length}`, 20, 72);
     if (trip.budget) {
-        doc.text(`Budget: ₹${trip.budget.toFixed(2)}`, 20, 79);
-        doc.text(`Remaining: ₹${(trip.budget - totalExpense).toFixed(2)}`, 20, 86);
+        doc.text(`Budget: Rs. ${trip.budget.toFixed(2)}`, 20, 79);
+        doc.text(`Remaining: Rs. ${(trip.budget - totalExpense).toFixed(2)}`, 20, 86);
     }
     
     // Settlements
@@ -1218,12 +1242,12 @@ function exportPDF() {
         });
         
         // Remove emoji from category for PDF export
-        const categoryText = expense.category.replace(/^[^\w\s]+\s*/, '').substring(0, 12);
-        const desc = expense.description.length > 18 ? expense.description.substring(0, 18) + '...' : expense.description;
+        const categoryText = expense.category.replace(/^[^\w\s]+\s*/, '').substring(0, 18);
+        const desc = expense.description ? (expense.description.length > 18 ? expense.description.substring(0, 18) + '...' : expense.description) : '-';
         const paidBy = expense.paidBy.substring(0, 12);
         // Remove any prefix characters and convert to proper number
         const cleanAmount = parseFloat(String(expense.amount).replace(/^[^\d.]+/, ''));
-        const amount = `₹${cleanAmount.toFixed(2)}`;
+        const amount = `Rs. ${cleanAmount.toFixed(2)}`;
         
         doc.text(formattedDate, 20, y);
         doc.text(categoryText, 50, y);
