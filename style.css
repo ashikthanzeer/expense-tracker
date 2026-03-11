@@ -757,10 +757,6 @@ h3 {
     transition: all 0.3s ease;
 }
 
-.summary-item:hover {
-    /* hover effect removed */
-}
-
 .summary-item h4 {
     font-size: 0.85rem;
     margin-bottom: 15px;
@@ -772,14 +768,6 @@ h3 {
 
 body.dark-mode .summary-item h4 {
     color: rgba(0, 0, 0, 0.7);
-}
-
-.summary-item:hover h4 {
-    /* hover effect removed */
-}
-
-body.dark-mode .summary-item:hover h4 {
-    /* hover effect removed */
 }
 
 .summary-item p {
